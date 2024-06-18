@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to K-Nearest Neighbors Game</title>
+    <link rel="stylesheet" href="introduction.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the K-Nearest Neighbors Game</h1>
+        
+        <div class="slideshow-container">
+            <div class="slides">
+                <div class="slide">
+                    <img src="slide1.jpg" alt="Slide 1">
+                </div>
+                <div class="slide">
+                    <img src="slide2.jpg" alt="Slide 2">
+                </div>
+                <div class="slide">
+                    <img src="slide3.jpg" alt="Slide 3">
+                </div>
+                <!-- Add more slides as needed -->
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+
+        <a href="index.html" class="button">Let's Go!</a>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            const slides = document.getElementsByClassName("slide");
+            if (n >= slides.length) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 1; }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.add("hide");
+            }
+            slides[slideIndex].classList.remove("hide");
+        }
+    </script>
+</body>
+</html>
