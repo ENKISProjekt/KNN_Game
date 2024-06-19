@@ -262,7 +262,7 @@ function startRound() {
 function stepTwo(){
     step2.style.color="black";
     step1.style.color="grey";
-    stepDiv.innerHTML = "Step 2: Select k=3 Nearest Neighbors";
+    stepDiv.innerHTML = "Step 2: Select 3 Nearest Neighbors (k=3)";
     stepDescDiv.innerHTML = "On the plot above, click on the 3 data points that are the nearest to our new student. It does not matter if it is a pass or a fail.";
     showCheckButton();
 }
