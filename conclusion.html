@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="introduction.css">
+    <style>
+        .button {
+            display: none; /* Hide the button initially */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">        
+        <div class="slideshow-container">
+            <div class="slides">
+                <div class="slide">
+                    <img src="AfterGame1.svg" alt="Slide 1">
+                </div>
+                <div class="slide">
+                    <img src="AfterGame2.svg" alt="Slide 2">
+                </div>
+                <div class="slide">
+                    <img src="AfterGame3.svg" alt="Slide 2">
+                </div>
+                <div class="slide">
+                    <img src="AfterGame4.svg" alt="Slide 2">
+                </div>
+                <!-- Add more slides as needed -->
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+
+        <button class="button" onclick="window.location.href='index.html'">Go to the Initial Page</button>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+
+        function showSlides(n) {
+            const slides = document.getElementsByClassName("slide");
+            const button = document.querySelector('.button');
+            const prev = document.querySelector('.prev');
+            const next = document.querySelector('.next');
+
+            if (n >= slides.length) { slideIndex = slides.length - 1; } // Adjust to show the last slide instead of looping
+            if (n < 0) { slideIndex = 0; } // Adjust to show the first slide instead of looping
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex].style.display = "block";
+            
+            // Show the button if on the last slide
+            if (slideIndex === slides.length - 1) {
+                button.style.display = "block";
+                next.style.display = "none"; // Hide next icon on the last slide
+            } else {
+                button.style.display = "none";
+                next.style.display = "block"; // Show next icon if not on the last slide
+            }
+
+            // Hide prev icon on the first slide
+            if (slideIndex === 0) {
+                prev.style.display = "none";
+            } else {
+                prev.style.display = "block";
+            }
+        }
+
+        function plusSlides(n) {
+            slideIndex += n;
+            showSlides(slideIndex);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlides(slideIndex);
+        });
+    </script>
+</body>
+</html>

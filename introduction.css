@@ -9,16 +9,18 @@ body {
     height: 100vh;
 }
 .container {
+    font-family: 'Fira Sans';
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 80%;
-    max-width: 800px;
+    max-width: 1200px;
     padding: 20px;
     position: relative;
 }
 .button {
+    font-family: 'Fira Sans';
     position: absolute;
     top: 20px;
     right: 20px;
@@ -88,3 +90,20 @@ h1 {
     max-width: 100%;
     border-radius: 10px;
 }
+
+.button1 {
+    top: 20px;
+    right: 20px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.button1:hover {
+    background-color: #bbb;
+}
+
+.content1 {
+    font-family: 'Fira Sans';
+}  

@@ -207,7 +207,7 @@ function makePrediction(predictedClass) {
     const failCount = selectedNeighbors.filter(n => n.label === 'Fail').length;
     const actualClass = passCount > failCount ? 'Pass' : 'Fail';
 
-    resultDiv.innerHTML = `KNN-AI Predicted: ${actualClass}<br>`;
+    resultDiv.innerHTML = `You classified that the student will: ${actualClass}<br>`;
     if (predictedClass === actualClass) {
         resultDiv.innerHTML += 'You were correct!';
         score++;
@@ -414,6 +414,7 @@ nextButton.addEventListener('click', () => {
         scoreDiv.innerHTML = `Game Over! Your score: ${score}/${maxRounds}. Time taken: ${timeTaken} seconds.`;
         nextButton.style.display = 'none'; // Hide the Next button
         viewResultsButton.style.display = 'inline'; // Show the View Results button
+        End.style.display = 'inline'; // Show the End button
     }
 
 });
