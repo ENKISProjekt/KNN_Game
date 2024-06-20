@@ -3,61 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-Nearest Neighbors Game</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Welcome to K-Nearest Neighbors Game</title>
+    <link rel="stylesheet" href="introduction.css">
+    <style>
+        .button {
+            display: none; /* Hide the button initially */
+        }
+    </style>
 </head>
 <body>
-    <h1>Will the student pass or fail?</h1>
-    <h3>Learn from historical data of previous students and predict if a new student will pass or fail.</h3>
-    <div id="container">
-        <div id="left-label">
-            Number of Minutes Spent on Online Learning Material
+    <div class="container">        
+        <div class="slideshow-container">
+            <div class="slides">
+                <div class="slide">
+                    <img src="BeforeGame2.svg" alt="Slide 2">
+                </div>
+                <div class="slide">
+                    <img src="BeforeGame3.svg" alt="Slide 3">
+                </div>
+                <div class="slide">
+                    <img src="BeforeGame4.svg" alt="Slide 4">
+                </div>
+                <!-- Add more slides as needed -->
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
 
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <div id="step-container">
-            <h3 id="step1">Step 1: Calculate the Distances</h3>
-            <h3 id="step2">Step 2: Select 3 Nearest Neighbors</h3>
-            <h3 id="step3">Step 3: Count and Predict</h3>
-        </div>
+        <button class="button" onclick="window.location.href='game.html'">Let's Help Professor Maria!</button>
     </div>
-    <div id="legend">
-        <div class="legend-item">
-            <i class="legend-icon fas fa-check" style="color: green;"></i>
-            Pass
-        </div>
-        <div class="legend-item">
-            <i class="legend-icon fas fa-times" style="color: red;"></i>
-            Fail
-        </div>
-        <div class="legend-item">
-            <i class="legend-icon fas fa-question-circle" style="color: black;"></i>
-            New Student
-        </div>
-    </div>
-    <p>Number of Clicks on Online Learning Materials</p>
-    <div id="progressBarContainer">
-        <div id="progressBar"></div>
-    </div>
-    <h2 id="step">Step 1: Calculate the Distances</h2>
-    <div id="stepDesc">
-        Press the button below to calculate the distance from the new point to all other points.
-    </div>
-    <div id="controls">
-        
-        <button id="predictPass" disabled>More Passes = the student will pass</button>
-        <button id="predictFail" disabled>More Fails = the student will fail</button>
-        <button id="calculateDistances" disabled>Calculate Distances</button>
 
-        <button id="check"> Check</button>
-        <button id="nextButton">Next</button>
-        <button id="viewResultsButton" style="display: none;">View Results</button>
-    </div>
-    
-    <div id="result"></div>
-    <button id="ok">OK!</button>
-    <div id="score"></div>
-    <script src="script.js"></script>
+    <script>
+        let slideIndex = 0;
+
+        function showSlides(n) {
+            const slides = document.getElementsByClassName("slide");
+            const button = document.querySelector('.button');
+
+            if (n >= slides.length) { slideIndex = slides.length - 1; } // Adjust to show the last slide instead of looping
+            if (n < 0) { slideIndex = 0; } // Adjust to show the first slide instead of looping
+            
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex].style.display = "block";
+            
+            // Show the button if on the last slide
+            if (slideIndex === slides.length - 1) {
+                button.style.display = "block";
+            } else {
+                button.style.display = "none";
+            }
+        }
+
+        function plusSlides(n) {
+            slideIndex += n;
+            showSlides(slideIndex);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlides(slideIndex);
+        });
+    </script>
 </body>
 </html>
