@@ -18,6 +18,7 @@
         </div>
 
         <canvas id="gameCanvas" width="800" height="600"></canvas>
+
         <div id="step-container">
             <h3 id="step1">Step 1: Calculate the Distances</h3>
             <h3 id="step2">Step 2: Select 3 Nearest Neighbors</h3>
@@ -39,20 +40,22 @@
         </div>
     </div>
     <p>Number of Clicks on Online Learning Materials</p>
+
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
     
     <h2 id="step">Step 1: Calculate the Distances</h2>
     <div id="stepDesc">
         Press the button below to calculate the distance from the new point to all other points.
     </div>
     <div id="controls">
-        
-        <button class="button1" id="predictPass" disabled>More Passes = the student will pass</button>
-        <button class="button1" id="predictFail" disabled>More Fails = the student will fail</button>
+        <button class="button2" id="predictPass" disabled>More Passes = the student will pass</button>
+        <button class="button3" id="predictFail" disabled>More Fails = the student will fail</button>
         <button class="button1" id="calculateDistances" disabled>Calculate Distances</button>
 
         <button class="button1" id="check"> Check</button>
         <button class="button1" id="nextButton">Next</button>
-        <button class="button1" id="viewResultsButton" style="display: none;">View Results</button>
     </div>
     
     <div id="result"></div>

@@ -411,9 +411,8 @@ nextButton.addEventListener('click', () => {
     } else {
         const endTime = new Date().getTime();
         const timeTaken = Math.round((endTime - startTime) / 1000);
-        scoreDiv.innerHTML = `Game Over! Your score: ${score}/${maxRounds}. Time taken: ${timeTaken} seconds.`;
+        scoreDiv.innerHTML = `Thank you! Your classified ${score} students correctly. You classified all students in ${timeTaken} seconds.`;
         nextButton.style.display = 'none'; // Hide the Next button
-        viewResultsButton.style.display = 'inline'; // Show the View Results button
         End.style.display = 'inline'; // Show the End button
     }
 

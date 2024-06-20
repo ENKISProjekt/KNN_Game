@@ -12,7 +12,7 @@ body {
     font-family: 'Fira Sans';
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px #0000001a;
     overflow: hidden;
     width: 80%;
     max-width: 1200px;
@@ -24,14 +24,17 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: #ccc;
+    color: white;
+    background-color: rgb(98, 126, 110);
     border: none;
+    font-size: 24px;
     border-radius: 20px;
-    padding: 10px 20px;
+    padding: 20px 40px;
     cursor: pointer;
+    box-shadow: 0 8px 12px rgba(17, 17, 17, 0.2);
 }
 .button:hover {
-    background-color: #bbb;
+    background-color: rgb(98, 126, 110);
 }
 
 h1 {
@@ -104,6 +107,49 @@ h1 {
     background-color: #bbb;
 }
 
+.button2 {
+    top: 20px;
+    font-family: 'Fira Sans';
+    right: 20px;
+    background-color: rgb(98, 126, 110);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.button2:hover {
+    background-color: rgb(98, 126, 110);
+}
+
+.button3 {
+    top: 20px;
+    right: 20px;
+    background-color: #8f1818;
+    font-family: 'Fira Sans';
+    border: none;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.button3:hover {
+    background-color: #8f1818;
+}
+
+
 .content1 {
     font-family: 'Fira Sans';
 }  
+
+#progressBarContainer {
+    width: 80%; /* Set the desired width */
+    background-color: #f3f3f3; /* Light grey background */
+    border: 1px solid #ccc; /* Light grey border */
+    margin: auto;
+}
+#progressBar {
+    width: 50%; /* Set the progress bar width */
+    height: 20px; /* Set the height of the progress bar */
+    background-color: #4caf50; /* Green background */
+}
