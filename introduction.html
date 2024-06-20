@@ -36,6 +36,8 @@
         function showSlides(n) {
             const slides = document.getElementsByClassName("slide");
             const button = document.querySelector('.button');
+            const prev = document.querySelector('.prev');
+            const next = document.querySelector('.next');
 
             if (n >= slides.length) { slideIndex = slides.length - 1; } // Adjust to show the last slide instead of looping
             if (n < 0) { slideIndex = 0; } // Adjust to show the first slide instead of looping
@@ -48,8 +50,17 @@
             // Show the button if on the last slide
             if (slideIndex === slides.length - 1) {
                 button.style.display = "block";
+                next.style.display = "none"; // Hide next icon on the last slide
             } else {
                 button.style.display = "none";
+                next.style.display = "block"; // Show next icon if not on the last slide
+            }
+
+            // Hide prev icon on the first slide
+            if (slideIndex === 0) {
+                prev.style.display = "none";
+            } else {
+                prev.style.display = "block";
             }
         }
 
