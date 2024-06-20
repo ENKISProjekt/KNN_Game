@@ -5,15 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to K-Nearest Neighbors Game</title>
     <link rel="stylesheet" href="introduction.css">
-    <style>
-        .button {
-            display: none; /* Hide the button initially */
-        }
-    </style>
 </head>
 <body>
     <div class="container">        
-        <div class="slideshow-container">
+        <div class="slideshow-container ">
             <div class="slides">
                 <div class="slide">
                     <img src="BeforeGame2.svg" alt="Slide 2">
@@ -30,30 +25,21 @@
             <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
 
-        <button class="button" onclick="window.location.href='game.html'">Let's Help Professor Maria!</button>
+        <a href="game.html" class="button">Let's Help Professor Maria!</a>
     </div>
+
 
     <script>
         let slideIndex = 0;
 
         function showSlides(n) {
             const slides = document.getElementsByClassName("slide");
-            const button = document.querySelector('.button');
-
-            if (n >= slides.length) { slideIndex = slides.length - 1; } // Adjust to show the last slide instead of looping
-            if (n < 0) { slideIndex = 0; } // Adjust to show the first slide instead of looping
-            
+            if (n >= slides.length) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 1; }
             for (let i = 0; i < slides.length; i++) {
                 slides[i].style.display = "none";
             }
             slides[slideIndex].style.display = "block";
-            
-            // Show the button if on the last slide
-            if (slideIndex === slides.length - 1) {
-                button.style.display = "block";
-            } else {
-                button.style.display = "none";
-            }
         }
 
         function plusSlides(n) {
