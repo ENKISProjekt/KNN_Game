@@ -18,6 +18,8 @@ body {
     max-width: 1200px;
     padding: 20px;
     position: relative;
+    max-height: 100vh; /* Ensure it doesn't exceed the viewport height */
+    overflow-y: auto; 
 }
 .button {
     font-family: 'Fira Sans';
