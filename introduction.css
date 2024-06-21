@@ -139,19 +139,42 @@ h1 {
     background-color: #8f1818;
 }
 
-
-.content1 {
-    font-family: 'Fira Sans';
-}  
+#left-label {
+    font-family: 'Fira Sans', sans-serif;
+}
 
 #progressBarContainer {
     width: 80%; /* Set the desired width */
     background-color: #f3f3f3; /* Light grey background */
     border: 1px solid #ccc; /* Light grey border */
     margin: auto;
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensure the progress bar is contained within the container */
+    box-shadow: 0 3px 3px -5px #000, 0 2px 5px #000; /* Add shadow for depth */
 }
+
 #progressBar {
     width: 50%; /* Set the progress bar width */
     height: 20px; /* Set the height of the progress bar */
     background-color: #4caf50; /* Green background */
+    text-align: center; /* Center-align text */
+    line-height: 20px; /* Center-align text vertically */
+    color: white; /* Text color */
+    border-radius: 10px 0 0 10px; /* Rounded corners for the progress bar */
+    transition: width 0.4s ease-in-out; /* Smooth transition for width change */
+    position: relative; /* Position relative for adding stripes */
+    overflow: hidden; /* Ensure stripes are contained within the bar */
+}
+
+#canvasContainer {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    margin: 0 auto; /* Center the container itself */
+    padding: 20px; /* Optional padding */
+    box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+}
+
+#gameCanvas {
+    border: 1px solid #ccc; /* Optional border */
 }

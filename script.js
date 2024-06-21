@@ -9,12 +9,13 @@ const resultDiv = document.getElementById('result');
 const scoreDiv = document.getElementById('score');
 const stepDiv = document.getElementById("step");
 const stepDescDiv = document.getElementById("stepDesc");
-const step1 = document.getElementById("step1");
-const step2 = document.getElementById("step2");
-const step3 = document.getElementById("step3");
 const width = canvas.width;
 const height = canvas.height;
 const checkButton = document.getElementById("check");
+const showDataPointsButton = document.getElementById("showDataPointsButton");
+const showDataPointsContainer = document.getElementById("showDataPointsContainer");
+const gameControls = document.getElementById("gameControls");
+const predictionIcon = document.getElementById("predictionIcon");
 
 let dataPoints = [];
 let newPoint = null;
@@ -25,6 +26,8 @@ const maxRounds = 5;
 let score = 0;
 let startTime;
 let distancesCalculated = false;
+let allowNeighborSelection = false;
+let dataCollected = false;
 
 // Generate random data points
 function generateDataPoints() {
@@ -50,7 +53,7 @@ function drawDataPoints(points) {
         if (point.label === 'Pass') {
             // Draw green check mark
             ctx.strokeStyle = 'green';
-            ctx.lineWidth = 5; // Thicker line for the check mark
+            ctx.lineWidth = 5;
             ctx.beginPath();
             ctx.moveTo(point.x - 5, point.y);
             ctx.lineTo(point.x, point.y + 10);
@@ -59,7 +62,7 @@ function drawDataPoints(points) {
         } else {
             // Draw red thick cross
             ctx.strokeStyle = 'red';
-            ctx.lineWidth = 5; // Thicker line for the cross
+            ctx.lineWidth = 5;
             ctx.beginPath();
             ctx.moveTo(point.x - 10, point.y - 10);
             ctx.lineTo(point.x + 10, point.y + 10);
@@ -69,25 +72,22 @@ function drawDataPoints(points) {
         }
         if (distancesCalculated) {
             ctx.fillStyle = 'black';
+            ctx.font = '14px Arial';
             ctx.fillText(distance(point, newPoint).toFixed(2), point.x + 15, point.y - 10);
         }
     });
 }
 
-// Reset the line width back to 1 after drawing the points
 ctx.lineWidth = 1;
 
-// Draw the new point
 function drawNewPoint(point) {
-    // Draw the circle
     ctx.beginPath();
-    ctx.arc(point.x, point.y, 15, 0, Math.PI * 2); // Adjust the radius as needed
+    ctx.arc(point.x, point.y, 15, 0, Math.PI * 2);
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.closePath();
-    
-    // Draw the question mark
+
     ctx.fillStyle = 'black';
     ctx.font = 'bold 20px Arial';
     ctx.textAlign = 'center';
@@ -95,7 +95,6 @@ function drawNewPoint(point) {
     ctx.fillText('?', point.x, point.y);
 }
 
-// Highlight the correct neighbors with a golden edge
 function highlightCorrectNeighbors(neighbors) {
     neighbors.forEach(point => {
         ctx.strokeStyle = 'gold';
@@ -103,11 +102,10 @@ function highlightCorrectNeighbors(neighbors) {
         ctx.beginPath();
         ctx.arc(point.x, point.y, 14, 0, Math.PI * 2);
         ctx.stroke();
-        ctx.lineWidth = 1; // reset line width
+        ctx.lineWidth = 1;
     });
 }
 
-// Highlight the selected neighbors with a black edge
 function highlightSelectedNeighbors(neighbors) {
     neighbors.forEach(point => {
         ctx.strokeStyle = 'black';
@@ -115,28 +113,25 @@ function highlightSelectedNeighbors(neighbors) {
         ctx.beginPath();
         ctx.arc(point.x, point.y, 14, 0, Math.PI * 2);
         ctx.stroke();
-        ctx.lineWidth = 1; // reset line width
+        ctx.lineWidth = 1;
     });
 }
 
 function generateNewPoint() {
-    const min = 31; // Minimum value after excluding 0 to 20
-    const maxX = width - min-10;
-    const maxY = height - min-10;
+    const min = 31;
+    const maxX = width - min - 10;
+    const maxY = height - min - 10;
 
-    // Generate x and y values ensuring they are not between 0 and 20
     let x = Math.floor(Math.random() * (maxX - min + 1)) + min;
     let y = Math.floor(Math.random() * (maxY - min + 1)) + min;
 
     return { x, y };
 }
 
-// Calculate distance between two points
 function distance(point1, point2) {
     return Math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2);
 }
 
-// Calculate and store the nearest neighbors, accounting for ties
 function calculateNearestNeighbors() {
     const distances = dataPoints.map(point => ({
         point,
@@ -155,15 +150,16 @@ function calculateNearestNeighbors() {
     calculatedNeighbors = neighbors;
 }
 
-// Handle canvas click
 canvas.addEventListener('click', (event) => {
-    if (round >= maxRounds) return;
+    if (round >= maxRounds || !allowNeighborSelection) return;
 
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
 
-    // Find the nearest data point
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
+
     let nearestPoint = null;
     let minDistance = Infinity;
     dataPoints.forEach(point => {
@@ -175,27 +171,20 @@ canvas.addEventListener('click', (event) => {
     });
 
     if (nearestPoint) {
-
         if (selectedNeighbors.includes(nearestPoint)) {
-            // Deselect the point if already selected
             selectedNeighbors = selectedNeighbors.filter(point => point !== nearestPoint);
         } else if (selectedNeighbors.length < 3) {
-            // Select the point if not already selected and less than 3 selected
             selectedNeighbors.push(nearestPoint);
         }
-        if (selectedNeighbors.length == 3){
-            checkButton.disabled=false;
-        };
-        if (selectedNeighbors.length <3){
-            checkButton.disabled=true;
-        };
+        if (selectedNeighbors.length === 3){
+            checkButton.disabled = false;
+        } else {
+            checkButton.disabled = true;
+        }
         redrawCanvas();
     }
 });
 
-
-
-// Predict the class based on k-nearest neighbors
 function makePrediction(predictedClass) {
     if (selectedNeighbors.length !== 3) return;
 
@@ -215,43 +204,40 @@ function makePrediction(predictedClass) {
         resultDiv.innerHTML += 'You were incorrect.';
     }
 
-    highlightCorrectNeighbors(calculatedNeighbors);  // Highlight correct neighbors with golden edge
+    highlightCorrectNeighbors(calculatedNeighbors);
     nextButton.style.display = 'inline';
     disableButtons(true);
+
+    updatePredictionIcon(predictedClass);
 }
 
-function hideCheckButton(){
+function hideCheckButton() {
     checkButton.style.display = "none";
 }
 
-function showCheckButton(){
-    if(selectedNeighbors.length !== 3){
+function showCheckButton() {
+    if (selectedNeighbors.length !== 3) {
         checkButton.disabled = true;
-    }
-    else{
+    } else {
         checkButton.disabled = false;     
     }
     checkButton.style.display = "inline";
 }
 
-// Start a new round
 function startRound() {
-    step1.style.color="black";
-    step3.style.color="grey";
-    step2.style.color="grey";
     okButton.style.display="none";
     hidePassFailButton();
     hideCheckButton();
     calculateDistancesButton.style.display="inline";
     ctx.clearRect(0, 0, width, height);
     distancesCalculated = false;
-    selectedNeighbors = []; // Reset selected neighbors for the new round
+    allowNeighborSelection = false;
+    selectedNeighbors = [];
     drawGrid();
     drawDataPoints(dataPoints);
     newPoint = generateNewPoint();
     drawNewPoint(newPoint);
     calculateNearestNeighbors();
-    // resultDiv.innerHTML = `Will this student pass or fail?`;
     nextButton.style.display = 'none';
     disableButtons(false);
     updateProgressBar();
@@ -259,15 +245,14 @@ function startRound() {
     stepDescDiv.innerHTML = "Press the button below to calculate the distance from the new point to all other points."
 }
 
-function stepTwo(){
-    step2.style.color="black";
-    step1.style.color="grey";
+function stepTwo() {
     stepDiv.innerHTML = "Step 2: Select 3 Nearest Neighbors (k=3)";
     stepDescDiv.innerHTML = "On the plot above, click on the 3 data points that are the nearest to our new student. It does not matter if it is a pass or a fail.";
     showCheckButton();
+    allowNeighborSelection = true;
 }
 
-function checkNeighbors(){
+function checkNeighbors() {
     if (selectedNeighbors.length !== 3) return;
 
     const allCorrect = selectedNeighbors.every(point => 
@@ -276,18 +261,19 @@ function checkNeighbors(){
 
     if (!allCorrect) {
         resultDiv.innerHTML = 'You selected incorrect neighbors. The nearest neighbors are now marked with yellow.';
-        highlightCorrectNeighbors(calculatedNeighbors); // Highlight correct neighbors with golden edge
+        highlightCorrectNeighbors(calculatedNeighbors);
         okButton.style.display="inline";
         return;
     }
     stepThree();
+    predictPassButton.disabled = false;
+    predictFailButton.disabled = false;
 }
 
 function drawGrid() {
     ctx.strokeStyle = '#ccc';
     ctx.lineWidth = 1;
 
-    // Vertical lines (x-axis)
     for (let x = 0; x <= width; x += 20) {
         if (x % 20 === 0) {
             ctx.beginPath();
@@ -296,10 +282,9 @@ function drawGrid() {
             ctx.stroke();
         }
         if (x % 20 === 0) {
-            // Add vertical text labels for x-coordinates
             ctx.save();
-            ctx.translate(x + 5, height - 5); // Adjusted position for x-coordinate labels
-            ctx.rotate(-Math.PI / 2); // Rotate text vertically
+            ctx.translate(x + 5, height - 5); 
+            ctx.rotate(-Math.PI / 2);
             ctx.fillStyle = '#000';
             ctx.font = '10px Arial';
             ctx.fillText(x, 0, 0);
@@ -307,7 +292,6 @@ function drawGrid() {
         }
     }
 
-    // Horizontal lines (y-axis)
     for (let y = 0; y <= height; y += 20) {
         if (y % 20 === 0) {
             ctx.beginPath();
@@ -316,15 +300,13 @@ function drawGrid() {
             ctx.stroke();
         }
         if (y % 20 === 0) {
-            // Add text labels for y-coordinates
             ctx.fillStyle = '#000';
             ctx.font = '10px Arial';
-            ctx.fillText(height - y, 5, y + 10); // Adjusted to display y-coordinate labels on the left side
+            ctx.fillText(height - y, 5, y + 10);        
         }
     }
 }
 
-// Disable or enable buttons
 function disableButtons(disable) {
     predictPassButton.disabled = disable;
     predictFailButton.disabled = disable;
@@ -340,46 +322,42 @@ function hidePassFailButton() {
     predictPassButton.style.display = 'none';
 }
 
-// Redraw canvas including grid
 function redrawCanvas() {
     ctx.clearRect(0, 0, width, height);
-    drawGrid(); // Draw grid first
+    drawGrid();
     drawDataPoints(dataPoints);
     drawNewPoint(newPoint);
     highlightSelectedNeighbors(selectedNeighbors);
 }
 
-// Initialize game
 function init() {
-    
     dataPoints = generateDataPoints();
     startTime = new Date().getTime();
     drawGrid();
-    startRound();
+    if (dataCollected) {
+        startRound();
+    }
 }
 
-// Function to update progress bar
 function updateProgressBar() {
     const progress = ((round + 1) / maxRounds) * 100;
     progressBar.style.width = `${progress}%`;
 }
 
-function stepThree(){
+function stepThree() {
     stepDiv.innerHTML = "Step 3: Count and Make Prediction";
     stepDescDiv.innerHTML = "Among the 3 selected neighbors, are there more passes or fails?";
     predictPassButton.style.display="inline";
     predictFailButton.style.display="inline";
-    step3.style.color="black";
-    step2.style.color="grey";
 }
 
-okButton.addEventListener("click",()=>{
+okButton.addEventListener("click", () => {
     okButton.style.display="none";
     resultDiv.innerHTML="";
     stepThree();
 })
 
-checkButton.addEventListener('click', () =>{
+checkButton.addEventListener('click', () => {
     checkButton.style.display="none";
     checkNeighbors();
 });
@@ -388,11 +366,16 @@ nextButton.addEventListener('click', () => {
 
 });
 
+predictPassButton.addEventListener('click', () => {
+    makePrediction('Pass');
+    updatePredictionIcon('Pass');
+});
 
+predictFailButton.addEventListener('click', () => {
+    makePrediction('Fail');
+    updatePredictionIcon('Fail');
+});
 
-// Event listeners for prediction buttons
-predictPassButton.addEventListener('click', () => makePrediction('Pass'));
-predictFailButton.addEventListener('click', () => makePrediction('Fail'));
 calculateDistancesButton.addEventListener('click', () => {
     distancesCalculated = true;
     ctx.clearRect(0, 0, width, height);
@@ -403,23 +386,49 @@ calculateDistancesButton.addEventListener('click', () => {
     hideDistanceButton();
     stepTwo();
 });
+
 nextButton.addEventListener('click', () => {
     resultDiv.innerHTML="";
     round++;
-    if (round < maxRounds - 1) { // Adjusted to maxRounds - 1 to allow for correct round count
+    if (round < maxRounds - 1) {
         startRound();
     } else {
         const endTime = new Date().getTime();
         const timeTaken = Math.round((endTime - startTime) / 1000);
         scoreDiv.innerHTML = `Thank you! Your classified ${score} students correctly. You classified all students in ${timeTaken} seconds.`;
-        nextButton.style.display = 'none'; // Hide the Next button
-        End.style.display = 'inline'; // Show the End button
+        nextButton.style.display = 'none';
+        End.style.display = 'inline';
+        hideGameControls(); 
     }
-
 });
 
-// Start the game
+showDataPointsButton.addEventListener('click', () => {
+    drawDataPoints(dataPoints);
+    showDataPointsContainer.style.display = 'none';
+    gameControls.style.display = 'block';
+    dataCollected = true;
+    startRound();
+});
 
+function updatePredictionIcon(predictedClass) {
+    if (predictedClass === 'Pass') {
+        predictionIcon.classList.remove('fa-question-circle', 'fa-times');
+        predictionIcon.classList.add('fa-check');
+        predictionIcon.style.color = 'green';
+    } else if (predictedClass === 'Fail') {
+        predictionIcon.classList.remove('fa-question-circle', 'fa-check');
+        predictionIcon.classList.add('fa-times');
+        predictionIcon.style.color = 'red';
+    }
+}
+
+function hideGameControls() {
+    document.getElementById('step').style.display = 'none';
+    document.getElementById('stepDesc').style.display = 'none';
+    document.getElementById('controls').style.display = 'none';
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('ok').style.display = 'none';
+    document.getElementById('progressBarContainer').style.display = 'none';
+}
 
 init();
-
