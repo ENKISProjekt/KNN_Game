@@ -198,7 +198,7 @@ function makePrediction(predictedClass) {
 
     resultDiv.innerHTML = `You classified that the student will: ${actualClass}<br>`;
     if (predictedClass === actualClass) {
-        resultDiv.innerHTML += 'You were correct!';
+        resultDiv.innerHTML += '';
         score++;
     } else {
         resultDiv.innerHTML += 'You were incorrect.';
@@ -260,7 +260,7 @@ function checkNeighbors() {
     );
 
     if (!allCorrect) {
-        resultDiv.innerHTML = 'Oh! These are not the closest neighbours. Let me help you: the nearest previous students to our new student are now highlighted in yellow.';
+        resultDiv.innerHTML = 'Oh! These are not the closest neighbours. Let me help you: the nearest previous students to our new student are now highlighted in yellow. Please correct it.';
         highlightCorrectNeighbors(calculatedNeighbors);
         okButton.style.display="inline";
         return;
