@@ -346,7 +346,7 @@ function updateProgressBar() {
 
 function stepThree() {
     stepDiv.innerHTML = "Step 3: Count and Make Prediction";
-    stepDescDiv.innerHTML = "Among the three selected neighbours (i.e., selected students), are there more students that passed or failed?";
+    stepDescDiv.innerHTML = "Among the three closest neighbours (i.e., selected students), are there more students that passed or failed?";
     predictPassButton.style.display="inline";
     predictFailButton.style.display="inline";
 }
