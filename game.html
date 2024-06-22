@@ -25,11 +25,10 @@
 <body>
     <div class="container">
     <h1>Will the new student pass or fail?</h1>
-    <h3>Learn from historical data of previous students and predict if a new student will pass or fail.</h3>
+    <h3>Learn from historical data from previous students and predict whether a new student will pass or is at risk of failing.</h3>
+    <h4>Let's use the following students' behaviors to make the predictions: (1) Number of clicks each student made on the educational platform, (2) Number of Minutes Spent on Online Learning Material. We call these features. </h4>
 
     <hr />
-
-    <br/>
 
     <div id="showDataPointsContainer">
         <p id="message">You need data from previous students to learn from and make the predictions. 
@@ -40,13 +39,11 @@
     <div id="gameControls">
         <h2 id="step">Step 1: Calculate the Distances</h2>
         <div id="stepDesc">
-            You need to predict if a student will pass or not. The first step, it is to . 
-            </br>
-            Press the button below to calculate the distance from the new point to all other points.
+            Press the button below to calculate the distance from the new point (i.e., new student) to all other points (i.e., previous students).
         </div>
         <div id="controls">
-            <button class="button2" id="predictPass" disabled>More Passes = the student will pass</button>
-            <button class="button3" id="predictFail" disabled>More Fails = the student will fail</button>
+            <button class="button2" id="predictPass" disabled>More Passes = predict that the new student will pass</button>
+            <button class="button3" id="predictFail" disabled>More Fails = predict that the new student will fail</button>
             <button class="button1" id="calculateDistances">Calculate Distances</button>
     
             <button class="button1" id="check"> Check</button>

@@ -241,13 +241,13 @@ function startRound() {
     nextButton.style.display = 'none';
     disableButtons(false);
     updateProgressBar();
-    stepDiv.innerHTML= "Step 1: Calculate the Distances";
-    stepDescDiv.innerHTML = "Press the button below to calculate the distance from the new point to all other points."
+    stepDiv.innerHTML= "Step 1: Calculate the Distances (Euclidean Distance)";
+    stepDescDiv.innerHTML = "Press the button below to calculate the distance from the new point (i.e., new student) to all other points (i.e., previous students)."
 }
 
 function stepTwo() {
     stepDiv.innerHTML = "Step 2: Select 3 Nearest Neighbors (k=3)";
-    stepDescDiv.innerHTML = "On the plot above, click on the 3 data points that are the nearest to our new student. It does not matter if it is a pass or a fail.";
+    stepDescDiv.innerHTML = "On the plot below, click on the 3 previous students that are the nearest to our new student. It does not matter if it is a pass or a fail.";
     showCheckButton();
     allowNeighborSelection = true;
 }
@@ -260,7 +260,7 @@ function checkNeighbors() {
     );
 
     if (!allCorrect) {
-        resultDiv.innerHTML = 'You selected incorrect neighbors. The nearest neighbors are now marked with yellow.';
+        resultDiv.innerHTML = 'Oh! These are not the closest neighbours. Let me help you: the nearest previous students to our new student are now highlighted in yellow.';
         highlightCorrectNeighbors(calculatedNeighbors);
         okButton.style.display="inline";
         return;
@@ -346,7 +346,7 @@ function updateProgressBar() {
 
 function stepThree() {
     stepDiv.innerHTML = "Step 3: Count and Make Prediction";
-    stepDescDiv.innerHTML = "Among the 3 selected neighbors, are there more passes or fails?";
+    stepDescDiv.innerHTML = "Among the three selected neighbours (i.e., selected students), are there more students that passed or failed?";
     predictPassButton.style.display="inline";
     predictFailButton.style.display="inline";
 }
