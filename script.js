@@ -196,12 +196,12 @@ function makePrediction(predictedClass) {
     const failCount = selectedNeighbors.filter(n => n.label === 'Fail').length;
     const actualClass = passCount > failCount ? 'Pass' : 'Fail';
 
-    resultDiv.innerHTML = `You classified that the student will: ${actualClass}<br>`;
+    resultDiv.innerHTML = ``;
     if (predictedClass === actualClass) {
         resultDiv.innerHTML += '';
         score++;
     } else {
-        resultDiv.innerHTML += 'You were incorrect.';
+        resultDiv.innerHTML += '';
     }
 
     highlightCorrectNeighbors(calculatedNeighbors);
@@ -262,13 +262,15 @@ function checkNeighbors() {
     if (!allCorrect) {
         resultDiv.innerHTML = 'Oh! These are not the closest neighbours. Let me help you: the nearest previous students to our new student are now highlighted in yellow. Please correct it.';
         highlightCorrectNeighbors(calculatedNeighbors);
-        okButton.style.display="inline";
+        okButton.style.display = "inline";
+        allowNeighborSelection = true;
         return;
     }
     stepThree();
     predictPassButton.disabled = false;
     predictFailButton.disabled = false;
 }
+
 
 function drawGrid() {
     ctx.strokeStyle = '#ccc';
